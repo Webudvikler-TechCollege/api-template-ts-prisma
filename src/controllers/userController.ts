@@ -4,7 +4,13 @@ import bcrypt from 'bcrypt';
 
 export const getRecords = async (req: Request, res: Response) => {
   try {
-    const users = await prisma.user.findMany();
+    const users = await prisma.user.findMany({
+      select: {
+        id: true,
+        name: true,
+        email: true
+      }
+    });
     res.json(users);
   } catch (error) {
     console.error(error);
@@ -17,6 +23,12 @@ export const getRecord = async (req: Request, res: Response) => {
   try {
     const user = await prisma.user.findUnique({
       where: { id: Number(id) },
+      select: {
+        id: true,
+        name: true,
+        email:true,
+        is_active: true
+      }
     });
     if (!user) res.status(404).json({ error: 'User not found' });
     res.json(user);

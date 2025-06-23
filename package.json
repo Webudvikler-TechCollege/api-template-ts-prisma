@@ -9,10 +9,8 @@
     "seed": "prisma db seed",
     "migrate": "prisma migrate dev", 
     "prepare": "prisma generate",
-    "db:init": "prisma migrate dev && prisma db seed"
-  },
-  "prisma": {
-    "seed": "tsx prisma/seed.ts"
+    "db:init": "prisma migrate dev && prisma db seed",
+    "db:push": "prisma db push"
   },
   "keywords": [],
   "author": "",
