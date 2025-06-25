@@ -1,6 +1,6 @@
 # Prisma API Template
 
-Et starterprojekt med **Node.js**, **TypeScript**, **Express 5**, og **Prisma ORM**. Perfekt som udgangspunkt for REST API'er med moderne værktøjer og datamodellering.
+Denne template kører med **Node.js**, **TypeScript**, **Express**, og **Prisma**. Den er tænkt som udgangspunkt for et REST API med moderne værktøjer og datamodellering.
 
 ---
 
@@ -21,7 +21,9 @@ Et starterprojekt med **Node.js**, **TypeScript**, **Express 5**, og **Prisma OR
 
 ```bash
 git clone https://github.com/dit-brugernavn/api-template.git
+
 cd api-template
+
 npm install
 ```
 
@@ -30,13 +32,23 @@ npm install
 cp .env.example .env
 ```
 
-### 3. Init database (migration + seed)
+### 3.1 Initialiser database (migration + seed)
+Nedenstående kommando kører med database shadowing og kræver at du har rettigheder til at oprette databaser på serveren.
 ```bash
-npm run db:init
+npm run init
 ```
 Denne kommando:
 - Kører `prisma migrate dev`
 - Seeder databasen via `prisma/seed.ts`
+
+### 3.2 Push database (begrænsede rettigheder)
+Kør push kommandoen hvis du kun har rettigheder til at administrere tabeller i databasen:
+```bash
+npm run push
+```
+Begge kommandoer:
+- kører `prisma migrate dev`
+- seeder databasen via `prisma/seed.ts`
 
 ### 4. Start serveren
 ```bash

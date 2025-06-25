@@ -9,8 +9,8 @@
     "seed": "prisma db seed",
     "migrate": "prisma migrate dev",
     "prepare": "prisma generate",
-    "db:init": "prisma migrate dev && prisma db seed",
-    "db:push": "prisma db push"
+    "init": "prisma migrate dev && prisma db seed",
+    "push": "prisma db push && prisma db seed"
   },
   "keywords": [],
   "author": "",
