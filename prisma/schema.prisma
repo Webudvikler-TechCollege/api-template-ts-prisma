@@ -20,6 +20,8 @@ model user {
   passwordHash  String
   refresh_token String
   is_active     Boolean @default(true)
+
+  @@map("users")
 }
 
 model product {
@@ -30,4 +32,6 @@ model product {
   stock       Int
   is_active   Boolean  @default(true)
   created     DateTime @default(now())
+
+  @@map("products")
 }
