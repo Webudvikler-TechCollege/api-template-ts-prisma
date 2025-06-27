@@ -31,14 +31,14 @@ const authenticateUser = async (username: string, password: string) => {
         select: {
             id: true,
             name: true,
-            passwordHash: true,
+            password: true,
             is_active: true
         }
     });
 
     if (!user) return null;
 
-    const isMatch = await bcrypt.compare(password, user.passwordHash);
+    const isMatch = await bcrypt.compare(password, user.password);
 
     if (!isMatch) return null;
 
