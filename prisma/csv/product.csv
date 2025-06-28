@@ -1,2 +1,2 @@
-"id","name","description","price","stock","is_active"
+"id","name","description","price","stock","isActive"
 1,"Testprodukt","Alt godt til dig","99.99","8",1

@@ -27,7 +27,7 @@ export const getRecord = async (req: Request, res: Response) => {
         id: true,
         name: true,
         email:true,
-        is_active: true
+        isActive: true
       }
     });
     if (!user) res.status(404).json({ error: 'User not found' });
@@ -38,14 +38,14 @@ export const getRecord = async (req: Request, res: Response) => {
 };
 
 export const createRecord = async (req: Request, res: Response) => {
-  const { name, email, password, refresh_token, is_active } = req.body;
+  const { name, email, password, refreshToken, isActive } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ error: 'Email and password are required' });
   }
 
   const isActiveParsed =
-    is_active === 'true' || is_active === true || is_active === 1 || is_active === '1';
+    isActive === 'true' || isActive === true || isActive === 1 || isActive === '1';
 
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -54,8 +54,8 @@ export const createRecord = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
-        refresh_token,
-        is_active: isActiveParsed,
+        refreshToken,
+        isActive: isActiveParsed,
       },
     });
     res.status(201).json(user);
@@ -67,17 +67,17 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, email, password, refresh_token, is_active } = req.body;
+  const { name, email, password, refreshToken, isActive } = req.body;
 
   const isActiveParsed =
-    is_active === 'true' || is_active === true || is_active === 1 || is_active === '1';
+    isActive === 'true' || isActive === true || isActive === 1 || isActive === '1';
 
   try {
     const dataToUpdate: any = {
       name,
       email,
-      refresh_token,
-      is_active: isActiveParsed,
+      refreshToken,
+      isActive: isActiveParsed,
     };
 
     // Hash password only if provided

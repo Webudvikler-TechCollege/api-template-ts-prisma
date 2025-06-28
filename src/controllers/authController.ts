@@ -7,6 +7,7 @@ import {
 
 export const Authenticate = async (req: Request, res: Response): Promise<void> => {
     const { username, password } = req.body;
+    
     if (!username || !password) {
         res.status(400).json({ message: "Missing credentials" });
     }
@@ -21,16 +22,16 @@ export const Authenticate = async (req: Request, res: Response): Promise<void> =
 };
 
 export const refreshAccessToken = async (req: Request, res: Response): Promise<void> => {
-    const { refresh_token } = req.body;
-    if (!refresh_token) {
+    const { refreshToken } = req.body;
+    if (!refreshToken) {
         res.status(400).json({ message: "Refresh token required" });
         return;
     }
 
     try {
-        const access_token = await verifyRefreshToken(refresh_token);
-        if (!access_token) res.status(400).json({ message: "Invalid refresh token" });
-        res.json({ access_token });
+        const accessToken = await verifyRefreshToken(refreshToken);
+        if (!accessToken) res.status(400).json({ message: "Invalid refresh token" });
+        res.json({ accessToken });
     } catch {
         res.status(403).json({ message: "Invalid or expired refresh token" });
     }

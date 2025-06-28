@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import path from 'path';
+import bcrypt from 'bcrypt';
 import { readdir, readFile } from 'fs/promises';
 import { fileURLToPath } from 'url';
 import { parse } from 'csv-parse/sync';
@@ -24,7 +25,9 @@ async function processCsvFiles() {
     });
 
     const model = path.basename(file, '.csv');
-    const cleanedData: Record<string, any>[] = rawRecords.map((row: Record<string, any>) => castRow(model, row));
+    const cleanedData = await Promise.all(
+      rawRecords.map((row: Record<string, any>) => castRow(model, row))
+    ) 
 
     await seedData(model as ModelName, cleanedData);
   }
@@ -47,10 +50,9 @@ type ModelName = Exclude<keyof typeof prisma,
 const seedData = async (model: ModelName, data: any[]) => {
   try {
     const modelName = String(model);
-    const cleanedData = data.map((row) => castRow(modelName, row));
 
     await (prisma[model] as any).createMany({
-      data: cleanedData,
+      data,
       skipDuplicates: true
     });
   } catch (error) {
@@ -58,20 +60,24 @@ const seedData = async (model: ModelName, data: any[]) => {
   }
 };
 
-const castRow = (model: string, row: Record<string, any>) => {
+const castRow = async (model: string, row: Record<string, any>) => {
   const schema = fieldTypes[model]
   const converted: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(row)) {
     const type = schema[key] || 'string'
     const val = value?.toString().trim()
-
+    
     if (type === 'number') {
       converted[key] = Number(val)
     } else if (type === 'boolean') {
       converted[key] = Boolean(val)
     } else {
-      converted[key] = val
+      if(key === 'password') {
+        converted[key] = await bcrypt.hash(val, 10);
+      } else {
+        converted[key] = val
+      }
     }
   }
 

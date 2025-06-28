@@ -14,12 +14,12 @@ datasource db {
 }
 
 model user {
-  id            Int     @id @default(autoincrement())
-  name          String
-  email         String  @unique
-  password      String
-  refresh_token String
-  is_active     Boolean @default(true)
+  id           Int     @id @default(autoincrement())
+  name         String
+  email        String  @unique
+  password     String
+  refreshToken String
+  isActive     Boolean @default(true)
 
   @@map("users")
 }
@@ -30,7 +30,7 @@ model product {
   description String   @db.Text
   price       Decimal  @db.Decimal(10, 2)
   stock       Int
-  is_active   Boolean  @default(true)
+  isActive    Boolean  @default(true)
   created     DateTime @default(now())
 
   @@map("products")

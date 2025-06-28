@@ -4,8 +4,8 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     name: 'string',
     email: 'string',
     password: 'string',
-    refresh_token: 'string',
-    is_active: 'boolean'
+    refreshToken: 'string',
+    isActive: 'boolean'
   },
   product: {
     id: 'number',
@@ -13,6 +13,6 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     description: 'string',
     price: 'number',
     stock: 'number',
-    is_active: 'boolean',
+    isActive: 'boolean',
   }
 };
