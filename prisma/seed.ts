@@ -6,6 +6,8 @@ import { fileURLToPath } from 'url';
 import { parse } from 'csv-parse/sync';
 import { fieldTypes } from './types';
 
+type FieldType = 'string' | 'number' | 'boolean' | 'date';
+
 const prisma = new PrismaClient();
 
 const __filename = fileURLToPath(import.meta.url);
@@ -27,7 +29,7 @@ async function processCsvFiles() {
     const model = path.basename(file, '.csv');
     const cleanedData = await Promise.all(
       rawRecords.map((row: Record<string, any>) => castRow(model, row))
-    ) 
+    )
 
     await seedData(model as ModelName, cleanedData);
   }
@@ -51,6 +53,9 @@ const seedData = async (model: ModelName, data: any[]) => {
   try {
     const modelName = String(model);
 
+    console.log(modelName);
+
+
     await (prisma[model] as any).createMany({
       data,
       skipDuplicates: true
@@ -58,22 +63,25 @@ const seedData = async (model: ModelName, data: any[]) => {
   } catch (error) {
     console.error(`Failed to seed ${String(model)}:`, error);
   }
-};
+}
 
 const castRow = async (model: string, row: Record<string, any>) => {
-  const schema = fieldTypes[model]
+  const schema: Record<string, FieldType> = fieldTypes[model]
   const converted: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(row)) {
-    const type = schema[key] || 'string'
-    const val = value?.toString().trim()
     
+    const type: FieldType = schema[key] || 'string'
+    const val = value?.toString().trim()
+
     if (type === 'number') {
       converted[key] = Number(val)
     } else if (type === 'boolean') {
       converted[key] = Boolean(val)
+    } else if (type === 'date') {
+      converted[key] = new Date(val)
     } else {
-      if(key === 'password') {
+      if (key === 'password') {
         converted[key] = await bcrypt.hash(val, 10);
       } else {
         converted[key] = val
@@ -82,4 +90,4 @@ const castRow = async (model: string, row: Record<string, any>) => {
   }
 
   return converted
-};
+}
