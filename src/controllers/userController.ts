@@ -44,9 +44,6 @@ export const createRecord = async (req: Request, res: Response) => {
     res.status(400).json({ error: 'Email and password are required' });
   }
 
-  const isActiveParsed =
-    isActive === 'true' || isActive === true || isActive === 1 || isActive === '1';
-
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
@@ -55,7 +52,7 @@ export const createRecord = async (req: Request, res: Response) => {
         email,
         password: hashedPassword,
         refreshToken,
-        isActive: isActiveParsed,
+        isActive: Boolean(isActive),
       },
     });
     res.status(201).json(user);
@@ -69,15 +66,12 @@ export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
   const { name, email, password, refreshToken, isActive } = req.body;
 
-  const isActiveParsed =
-    isActive === 'true' || isActive === true || isActive === 1 || isActive === '1';
-
   try {
     const dataToUpdate: any = {
       name,
       email,
       refreshToken,
-      isActive: isActiveParsed,
+      isActive: Boolean(isActive),
     };
 
     // Hash password only if provided
