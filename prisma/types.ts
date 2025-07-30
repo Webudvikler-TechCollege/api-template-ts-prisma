@@ -1,4 +1,4 @@
-export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'boolean'>> = {
+export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'boolean' | 'date'>> = {
   user: {
     id: 'number',
     name: 'string',
