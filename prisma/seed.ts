@@ -70,14 +70,18 @@ const castRow = async (model: string, row: Record<string, any>) => {
   const converted: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(row)) {
-    
+
     const type: FieldType = schema[key] || 'string'
     const val = value?.toString().trim()
 
     if (type === 'number') {
       converted[key] = Number(val)
     } else if (type === 'boolean') {
-      converted[key] = Boolean(val)
+      if (val === "0") {
+        converted[key] = false
+      } else {
+        converted[key] = true
+      }
     } else if (type === 'date') {
       converted[key] = new Date(val)
     } else {
