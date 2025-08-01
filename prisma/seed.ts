@@ -7,6 +7,7 @@ import { parse } from 'csv-parse/sync';
 import { fieldTypes } from './types';
 
 type FieldType = 'string' | 'number' | 'boolean' | 'date';
+const keysOrder = Object.keys(fieldTypes)
 
 const prisma = new PrismaClient();
 
@@ -15,23 +16,26 @@ const __dirname = path.dirname(__filename);
 const directory = path.join(__dirname, 'csv');
 
 async function processCsvFiles() {
-  const files = await readdir(directory)
-  for (const file of files.filter(f => f.endsWith('.csv'))) {
+  const files = await readdir(directory);
+  const csvFiles = files.filter(f => f.endsWith('.csv'));
 
-    const fullpath = path.join(directory, file)
-    const content = await readFile(fullpath, 'utf-8')
+  for (const modelName of keysOrder) {
+    const filename = `${modelName}.csv`;
+    if (!csvFiles.includes(filename)) continue;
+
+    const fullpath = path.join(directory, filename);
+    const content = await readFile(fullpath, 'utf-8');
 
     const rawRecords = parse(content, {
       columns: true,
       skip_empty_lines: true
     });
 
-    const model = path.basename(file, '.csv');
     const cleanedData = await Promise.all(
-      rawRecords.map((row: Record<string, any>) => castRow(model, row))
-    )
+      rawRecords.map((row: Record<string, any>) => castRow(modelName, row))
+    );
 
-    await seedData(model as ModelName, cleanedData);
+    await seedData(modelName as ModelName, cleanedData);
   }
 }
 
@@ -70,15 +74,15 @@ const castRow = async (model: string, row: Record<string, any>) => {
   const converted: Record<string, any> = {}
 
   for (const [key, value] of Object.entries(row)) {
-
+    
     const type: FieldType = schema[key] || 'string'
     const val = value?.toString().trim()
 
     if (type === 'number') {
       converted[key] = Number(val)
     } else if (type === 'boolean') {
-      if (val === "0") {
-        converted[key] = false
+      if(val === "0") {
+        converted[key] = false  
       } else {
         converted[key] = true
       }
