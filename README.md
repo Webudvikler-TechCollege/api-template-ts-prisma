@@ -40,7 +40,7 @@ DATABASE_URL="mysql://[dbuser]:[dbpassword]@[dbhost]:[dbport]/[dbname]"
 Denne kommando kører med Prisma Migrate og kræver at du har fuld rettighed til din MySQL database. Dette kan typisk bruges hvis du kører med en lokal database.
 
 ```bash
-npm run db:init
+npm run init
 ```
 Denne kommando:
 - Kører `prisma migrate dev`
@@ -51,8 +51,8 @@ Hvis du kun har rettigheder til at administrere tabeller skal du bruge følgende
 
 Denne model skal typisk bruges hvis du kører med en online database.
 ```bash
-npm run db:push
-npm run db:seed
+npm run push
+npm run seed
 ```
 Den første kommando pusher dit skema til databasen og den anden kommando seeder data i dine tabeller.
 
