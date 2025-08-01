@@ -13,9 +13,9 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User { // -> Modellens navn
+model User {
   id           Int     @id @default(autoincrement()) // -> Primary Key med auto optælling
-  name         String  @default("Ikke navngivet") 
+  name         String  @default("Ikke navngivet")
   email        String  @unique // -> Unik værdi
   password     String
   image        String
@@ -31,6 +31,7 @@ model Product {
   id          Int      @id @default(autoincrement())
   name        String
   slug        String
+  image       String
   description String   @db.Text // -> Lang tekst
   price       Decimal  @db.Decimal(10, 2) // -> Decimaltal til pris
   stock       Int

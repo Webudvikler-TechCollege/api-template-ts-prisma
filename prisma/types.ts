@@ -11,10 +11,13 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
   product: {
     id: 'number',
     name: 'string',
+    slug: 'string',
+    image: 'string',
     description: 'string',
     price: 'number',
     stock: 'number',
     isActive: 'boolean',
+    createdAt: 'date'
   },
   favorite: {
     id: 'number',
