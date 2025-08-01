@@ -18,6 +18,7 @@ model User { // -> Modellens navn
   name         String  @default("Ikke navngivet") 
   email        String  @unique // -> Unik værdi
   password     String
+  image        String
   refreshToken String
   isActive     Boolean @default(true) // -> Bool med default true
 

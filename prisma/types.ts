@@ -2,9 +2,9 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
   user: {
     id: 'number',
     name: 'string',
-    slug: 'string',
     email: 'string',
     password: 'string',
+    image: 'string',
     refreshToken: 'string',
     isActive: 'boolean'
   },
