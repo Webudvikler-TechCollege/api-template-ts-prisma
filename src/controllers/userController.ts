@@ -26,7 +26,9 @@ export const getRecord = async (req: Request, res: Response) => {
       select: {
         id: true,
         name: true,
-        email:true,
+        email: true,
+        description: true,
+        image: true,
         isActive: true
       }
     });
@@ -38,7 +40,7 @@ export const getRecord = async (req: Request, res: Response) => {
 };
 
 export const createRecord = async (req: Request, res: Response) => {
-  const { name, email, password, refreshToken, isActive } = req.body;
+  const { name, email, password, description, image, refreshToken, isActive } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ error: 'Email and password are required' });
@@ -51,6 +53,8 @@ export const createRecord = async (req: Request, res: Response) => {
         name,
         email,
         password: hashedPassword,
+        description,
+        image,
         refreshToken,
         isActive: Boolean(isActive),
       },
@@ -64,12 +68,14 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, email, password, refreshToken, isActive } = req.body;
+  const { name, email, password, description, image, refreshToken, isActive } = req.body;
 
   try {
     const dataToUpdate: any = {
       name,
       email,
+      description,
+      image,
       refreshToken,
       isActive: Boolean(isActive),
     };

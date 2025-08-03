@@ -3,6 +3,7 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     id: 'number',
     name: 'string',
     email: 'string',
+    description: 'string',
     password: 'string',
     image: 'string',
     refreshToken: 'string',

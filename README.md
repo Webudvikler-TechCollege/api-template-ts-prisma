@@ -52,9 +52,8 @@ Hvis du kun har rettigheder til at administrere tabeller skal du bruge følgende
 Denne model skal typisk bruges hvis du kører med en online database.
 ```bash
 npm run push
-npm run seed
 ```
-Den første kommando pusher dit skema til databasen og den anden kommando seeder data i dine tabeller.
+Denne kommando pusher dine datamodeller til databasen og seeder tabellerne med data fra csv
 
 ### 4. Start serveren
 ```bash
