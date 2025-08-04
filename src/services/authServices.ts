@@ -34,7 +34,7 @@ const authenticateUser = async (username: string, password: string) => {
             password: true,
             isActive: true
         }
-    });
+    }); 
 
     if (!user) return null;
 
