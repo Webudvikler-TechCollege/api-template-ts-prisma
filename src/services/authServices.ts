@@ -19,8 +19,12 @@ const generateToken = (
     if (!key || !expires_in) {
         throw new Error(`Missing env vars for ${type} token`);
     }
+    console.log(type)
 
     const expTime = Math.floor(Date.now() / 1000) + Number(expires_in);
+
+    //console.log(type, new Date(expTime*1000).toString());
+    
     return jwt.sign({ exp: expTime, data: { id: user.id } }, key);
 };
 
@@ -34,7 +38,7 @@ const authenticateUser = async (username: string, password: string) => {
             password: true,
             isActive: true
         }
-    }); 
+    });
 
     if (!user) return null;
 

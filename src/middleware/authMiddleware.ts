@@ -21,6 +21,7 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
 
   try {
     const decoded = jwt.verify(token, process.env.TOKEN_ACCESS_KEY!) as any;
+    //console.log(new Date(decoded.exp*1000).toString());
     req.user = decoded.data;
     return next();
   } catch (error: any) {
@@ -28,6 +29,7 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
       try {
         // Decode access-token UDEN at verificere signaturen (det er udløbet)
         const decoded = jwt.decode(token) as any;
+        
         const userId = decoded?.data?.id;
 
         if (!userId) {
