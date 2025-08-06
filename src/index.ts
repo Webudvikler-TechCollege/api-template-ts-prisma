@@ -11,6 +11,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
 
+// Gør public-mappen tilgængelig som statisk
+app.use('/assets', express.static(path.join(__dirname, '../public')));
+
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
