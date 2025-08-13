@@ -19,7 +19,8 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
 
   // Tjek om token findes og starter korrekt
   if (!bearerHeader?.startsWith("Bearer ")) {
-    return res.status(401).json({ message: "Token not accepted" });
+    res.status(401).json({ message: "Token not accepted" });
+    return;
   }
 
   // Udtræk selve token-strengen
@@ -44,7 +45,8 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
 
         // Hvis vi ikke kan finde bruger-id, afvis
         if (!userId) {
-          return res.status(401).json({ message: "Cannot extract user ID from expired token." });
+          res.status(401).json({ message: "Cannot extract user ID from expired token." });
+          return;
         }
 
         // Find brugeren i databasen inkl. refresh token
@@ -55,7 +57,8 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
 
         // Hvis ingen refresh token findes, afvis
         if (!user || !user.refreshToken) {
-          return res.status(403).json({ message: "No refresh token available." });
+          res.status(403).json({ message: "No refresh token available." });
+          return;
         }
 
         // Verificer refresh token (kan også kaste fejl)
@@ -68,15 +71,18 @@ export const Authorize = async (req: Request, res: Response, next: NextFunction)
         req.user = { id: user.id };
 
         // Send nyt token tilbage til klienten
-        return res.status(200).json({ accessToken: newAccessToken });
+        res.status(200).json({ accessToken: newAccessToken });
+        return;
 
       } catch (err) {
         // Refresh token er ugyldigt eller udløbet
-        return res.status(403).json({ message: "Refresh token invalid or expired" });
+        res.status(403).json({ message: "Refresh token invalid or expired" });
+        return;
       }
     } else {
       // Alle andre fejl (fx ugyldig signatur)
-      return res.status(403).json({ message: error.message });
+      res.status(403).json({ message: error.message });
+      return;
     }
   }
 };
