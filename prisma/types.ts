@@ -20,6 +20,17 @@ export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'bo
     isActive: 'boolean',
     createdAt: 'date'
   },
+  review: {
+    id: 'number',
+    title: 'string',
+    comment: 'string',
+    numStars: 'number',
+    productId: 'number',
+    userId: 'number',
+    isActive: 'boolean',
+    createdAt: 'date',
+    updatedAt: 'date'
+  },
   favorite: {
     id: 'number',
     productId: 'number',

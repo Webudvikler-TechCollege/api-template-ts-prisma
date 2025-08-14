@@ -7,6 +7,7 @@ import { authRoutes } from './routes/authRoutes';
 import { fileURLToPath } from 'url';
 import { dirname } from 'path';
 import path from 'path';
+import { reviewRoutes } from './routes/reviewRoutes';
 
 dotenv.config();
 const port = process.env.SERVERPORT || 3000
@@ -23,6 +24,7 @@ app.use(cors())
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/products', productRoutes);
+app.use('/api/reviews', reviewRoutes);
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
