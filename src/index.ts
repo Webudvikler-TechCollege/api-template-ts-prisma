@@ -1,22 +1,18 @@
 import express from 'express';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import path from 'path';
 import { userRoutes } from './routes/userRoutes';
 import { productRoutes } from './routes/productRoutes';
 import { authRoutes } from './routes/authRoutes';
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-import path from 'path';
 import { reviewRoutes } from './routes/reviewRoutes';
 
 dotenv.config();
 const port = process.env.SERVERPORT || 3000
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
-
 const app = express();
-app.use('/assets', express.static(path.join(__dirname, '../public')));
+const IMAGES_DIR = path.resolve(process.cwd(), "assets", "images");
+app.use("/images", express.static(IMAGES_DIR));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }))
 app.use(cors())
