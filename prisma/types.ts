@@ -1,7 +1,8 @@
 export const fieldTypes: Record<string, Record<string, 'string' | 'number' | 'boolean' | 'date'>> = {
   user: {
     id: 'number',
-    name: 'string',
+    firstname: 'string',
+    lastname: 'string',
     email: 'string',
     description: 'string',
     password: 'string',

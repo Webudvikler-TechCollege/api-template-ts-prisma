@@ -15,7 +15,8 @@ datasource db {
 
 model User {
   id           Int     @id @default(autoincrement()) // -> Primary Key med auto optælling
-  name         String  @default("Ikke navngivet")
+  firstname    String  @default("Ikke navngivet")
+  lastname     String  @default("Ikke navngivet")
   email        String  @unique // -> Unik værdi
   password     String
   description  String? @db.Text // -> Lang tekst
@@ -55,10 +56,10 @@ model Review {
   userId    Int
   isActive  Boolean  @default(true)
   createdAt DateTime @default(now()) // -> Datotid
-  updatedAt DateTime @updatedAt 
+  updatedAt DateTime @updatedAt
 
-  user    User    @relation(fields: [userId], references: [id])
-  product Product @relation(fields: [productId], references: [id])
+  user    User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  product Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("reviews")
 }
@@ -68,9 +69,8 @@ model Favorite {
   userId    Int
   productId Int
 
-  user      User    @relation(fields: [userId], references: [id]) // -> Een til mange relation
-  product   Product @relation(fields: [productId], references: [id])
-  commentId Int?
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade) // -> Een til mange relation
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
 
   @@map("favorites")
 }

@@ -38,7 +38,8 @@ const authenticateUser = async (username: string, password: string) => {
         where: { email: username, isActive: true },
         select: {
             id: true,
-            name: true,
+            firstname: true,
+            lastname: true,
             password: true,
             isActive: true
         }

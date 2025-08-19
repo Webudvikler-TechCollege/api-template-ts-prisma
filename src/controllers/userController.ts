@@ -7,7 +7,8 @@ export const getRecords = async (req: Request, res: Response) => {
     const users = await prisma.user.findMany({
       select: {
         id: true,
-        name: true,
+        firstname: true,
+        lastname: true,
         email: true
       }
     });
@@ -25,7 +26,8 @@ export const getRecord = async (req: Request, res: Response) => {
       where: { id: Number(id) },
       select: {
         id: true,
-        name: true,
+        firstname: true,
+        lastname: true,
         email: true,
         description: true,
         image: true,
@@ -40,7 +42,7 @@ export const getRecord = async (req: Request, res: Response) => {
 };
 
 export const createRecord = async (req: Request, res: Response) => {
-  const { name, email, password, description, image, refreshToken, isActive } = req.body;
+  const { firstname, lastname, email, password, description, image, refreshToken, isActive } = req.body;
 
   if (!email || !password) {
     res.status(400).json({ error: 'Email and password are required' });
@@ -50,7 +52,8 @@ export const createRecord = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await prisma.user.create({
       data: {
-        name,
+        firstname,
+        lastname,
         email,
         password: hashedPassword,
         description,
@@ -68,11 +71,12 @@ export const createRecord = async (req: Request, res: Response) => {
 
 export const updateRecord = async (req: Request, res: Response) => {
   const { id } = req.params;
-  const { name, email, password, description, image, refreshToken, isActive } = req.body;
+  const { firstname, lastname, email, password, description, image, refreshToken, isActive } = req.body;
 
   try {
     const dataToUpdate: any = {
-      name,
+      firstname,
+      lastname,
       email,
       description,
       image,
